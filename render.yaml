@@ -14,7 +14,7 @@ services:
       - key: ENABLE_AUTH
         value: "true"
       - key: AUTH_TOKEN
-        generateValue: true
+        value: "REPLACE_ME"
       - key: ENABLE_REDIS
         value: "true"
       - key: ENABLE_SMS
@@ -35,9 +35,10 @@ services:
     depends_on:
       - complyai-backend
 
-  - type: background_worker
+  - type: worker
     name: complyai-worker
     env: docker
     dockerfilePath: ./worker/Dockerfile
     depends_on:
       - complyai-backend
+*** End Patch
