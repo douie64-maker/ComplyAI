@@ -1,0 +1,41 @@
+{
+  "services": [
+    {
+      "name": "complyai-backend",
+      "runtime": "dockerfile",
+      "dockerfilePath": "backend/Dockerfile",
+      "port": 8000,
+      "environment": {
+        "ENVIRONMENT": "production",
+        "ENABLE_AI_WORKER": "true",
+        "ENABLE_EMAIL": "true",
+        "ENABLE_AUTH": "true",
+        "ENABLE_REDIS": "true",
+        "ENABLE_SMS": "true"
+      }
+    },
+    {
+      "name": "complyai-frontend",
+      "runtime": "dockerfile",
+      "dockerfilePath": "frontend/Dockerfile",
+      "port": 3000,
+      "environment": {
+        "NEXT_PUBLIC_BACKEND_URL": "${{ services.complyai-backend.url }}"
+      },
+      "depends_on": ["complyai-backend"]
+    },
+    {
+      "name": "complyai-worker",
+      "runtime": "dockerfile",
+      "dockerfilePath": "worker/Dockerfile",
+      "environment": {
+        "ENABLE_AI_WORKER": "true",
+        "ENABLE_EMAIL": "true",
+        "ENABLE_AUTH": "true",
+        "ENABLE_REDIS": "true",
+        "ENABLE_SMS": "true"
+      },
+      "depends_on": ["complyai-backend"]
+    }
+  ]
+}

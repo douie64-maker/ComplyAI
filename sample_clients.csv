@@ -1,0 +1,6 @@
+id,name,email,company,status,created_date
+1,John Smith,john.smith@example.com,Acme Corp,active,2024-01-15
+2,Sarah Johnson,sarah.johnson@example.com,Tech Solutions,active,2024-02-20
+3,Michael Brown,michael.brown@example.com,Financial Services Inc,pending,2024-03-10
+4,Emily Davis,emily.davis@example.com,Healthcare Plus,active,2024-04-05
+5,David Wilson,david.wilson@example.com,Retail Enterprises,inactive,2024-01-30
