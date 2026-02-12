@@ -4,18 +4,17 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="ComplyAI Backend")
 
-# Get frontend URL from environment, default to localhost
-frontend_url = os.getenv("NEXT_PUBLIC_BACKEND_URL", "http://localhost:3000")
-allowed_origins = [
-    "http://localhost:3000",
-    "http://localhost:8000",
-    frontend_url,
-    "https://localhost:3000",
-]
+# Allow requests from any origin so the app works from any browser/cloud URL.
+# In production you can restrict this to specific origins via the ALLOW_ORIGINS env var.
+allow_origins_env = os.getenv("ALLOW_ORIGINS", "*")
+if allow_origins_env.strip() == "*":
+    cors_origins = ["*"]
+else:
+    cors_origins = [o.strip() for o in allow_origins_env.split(",") if o.strip()]
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
