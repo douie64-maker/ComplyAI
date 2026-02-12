@@ -1,47 +1,27 @@
-import os
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 
-app = FastAPI(title="ComplyAI Backend")
+app = FastAPI()
 
-# Get frontend URL from environment, default to localhost
-frontend_url = os.getenv("NEXT_PUBLIC_BACKEND_URL", "http://localhost:3000")
-allowed_origins = [
-    "http://localhost:3000",
-    "http://localhost:8000",
-    frontend_url,
-    "https://localhost:3000",
-]
-
+# CORS so all browsers can call your API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=allowed_origins,
+    allow_origins=["*"],   # lock this down later
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-clients = []
+class Query(BaseModel):
+    text: str
 
 @app.get("/health")
-def health_check():
-    """Health check endpoint for cloud deployments"""
-    return {"status": "ok", "service": "complyai-backend"}
+def health():
+    return {"status": "ok"}
 
-@app.get("/clients")
-def get_clients():
-    return clients
+@app.post("/api/ask")
+def ask_ai(q: Query):
+    # Placeholder AI logic (plug real LLM later)
+    return {"answer": f"ComplyAI received: {q.text}"}
 
-@app.post("/clients")
-def add_clients(new_clients: list):
-    clients.extend(new_clients)
-    return {"status": "clients added", "count": len(clients)}
-
-@app.post("/clients/reset")
-def reset_clients():
-    clients.clear()
-    return {"status": "clients reset"}
-
-@app.get("/")
-def root():
-    return {"service": "ComplyAI Backend", "docs": "/docs"}
