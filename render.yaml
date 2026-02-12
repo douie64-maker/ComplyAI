@@ -17,12 +17,8 @@ services:
     envVars:
       - key: VITE_BACKEND_URL
         value: "REPLACE_ME_WITH_BACKEND_URL"
-    depends_on:
-      - complyai-backend
 
   - type: worker
     name: complyai-worker
     env: docker
     dockerfilePath: ./worker/Dockerfile
-    depends_on:
-      - complyai-backend
