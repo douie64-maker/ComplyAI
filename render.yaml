@@ -3,7 +3,6 @@ services:
     name: complyai-backend
     env: docker
     dockerfilePath: ./backend/Dockerfile
-    port: 8000
     envVars:
       - key: ENVIRONMENT
         value: production
@@ -24,14 +23,10 @@ services:
     name: complyai-frontend
     env: docker
     dockerfilePath: ./frontend/Dockerfile
-    port: 3000
     buildCommand: npm run build
     envVars:
       - key: NEXT_PUBLIC_BACKEND_URL
-        fromService:
-          name: complyai-backend
-          type: web
-          property: url
+        value: "REPLACE_WITH_BACKEND_URL"
     depends_on:
       - complyai-backend
 
