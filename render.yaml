@@ -3,39 +3,24 @@ services:
     name: complyai-backend
     env: docker
     dockerfilePath: ./backend/Dockerfile
-    port: 8000
     envVars:
       - key: ENVIRONMENT
         value: production
-      - key: ENABLE_AI_WORKER
-        value: "true"
-      - key: ENABLE_EMAIL
-        value: "true"
-      - key: ENABLE_AUTH
-        value: "true"
       - key: AUTH_TOKEN
-        generateValue: true
-      - key: ENABLE_REDIS
-        value: "true"
-      - key: ENABLE_SMS
-        value: "true"
+        value: "REPLACE_ME_WITH_SECRET"
 
   - type: web
     name: complyai-frontend
     env: docker
     dockerfilePath: ./frontend/Dockerfile
-    port: 3000
     buildCommand: npm run build
     envVars:
-      - key: NEXT_PUBLIC_BACKEND_URL
-        fromService:
-          name: complyai-backend
-          type: web
-          property: url
+      - key: VITE_BACKEND_URL
+        value: "REPLACE_ME_WITH_BACKEND_URL"
     depends_on:
       - complyai-backend
 
-  - type: background_worker
+  - type: worker
     name: complyai-worker
     env: docker
     dockerfilePath: ./worker/Dockerfile
