@@ -1,13 +1,18 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.trustedhost import TrustedHostMiddleware
 from pydantic import BaseModel
+import os
 
-app = FastAPI()
+app = FastAPI(title="ComplyAI Backend")
+
+# Trust proxy headers for HTTPS (required for cloud deployments like Render)
+app.add_middleware(TrustedHostMiddleware, allowed_hosts=["*"])
 
 # CORS so all browsers can call your API
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],   # lock this down later
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -24,4 +29,5 @@ def health():
 def ask_ai(q: Query):
     # Placeholder AI logic (plug real LLM later)
     return {"answer": f"ComplyAI received: {q.text}"}
+
 
