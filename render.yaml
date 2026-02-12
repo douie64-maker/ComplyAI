@@ -41,4 +41,4 @@ services:
     dockerfilePath: ./worker/Dockerfile
     depends_on:
       - complyai-backend
-*** End Patch
+  
